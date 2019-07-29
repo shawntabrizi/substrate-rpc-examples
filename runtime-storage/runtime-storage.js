@@ -75,7 +75,6 @@ function get_runtime_storage_parameter_with_key(
 }
 
 function get_runtime_storage_parameter_without_key(module_name, function_name) {
-  // Special syntax to concatenate Uint8Array
   let a = utils.stringToU8a(module_name + " " + function_name);
   // We use xxhash for Storage Values, with bit-length 128
   return util_crypto.xxhashAsHex(a, 128);
