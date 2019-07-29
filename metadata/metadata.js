@@ -34,9 +34,11 @@ function make_request() {
 }
 
 function decode_metadata(metadata) {
-  output_raw.innerText += JSON.stringify(metadata);
+  output_raw.innerText += metadata;
   let decoded = new TextDecoder().decode(utils.hexToU8a(metadata)); 
-  output_decoded.innerText += JSON.stringify(decoded);
+  output_decoded.innerText += decoded;
 }
 
 make_request();
+
+document.getElementById("metadata-request").innerText = get_metadata_request.toString();

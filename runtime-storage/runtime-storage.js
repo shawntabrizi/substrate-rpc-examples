@@ -49,13 +49,15 @@ function get_runtime_storage_parameter_with_key(module_name, function_name, key)
     // Key may have many forms
     ...keyToBytes(key)
   ]);
-  return util_crypto.blake2AsHex(a);
+  // We use blake2 for maps (for security), with bit-length 256
+  return util_crypto.blake2AsHex(a, 256);
 }
 
 function get_runtime_storage_parameter_without_key(module_name, function_name) {
   // Special syntax to concatenate Uint8Array
   let a = utils.stringToU8a(module_name + " " + function_name);
-  return util_crypto.blake2AsHex(a);
+  // We use xxhash for Storage Values, with bit-length 128
+  return util_crypto.xxhashAsHex(a, 128);
 }
 
 function keyToBytes(key) {
