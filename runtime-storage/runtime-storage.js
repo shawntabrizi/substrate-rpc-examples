@@ -45,25 +45,23 @@ function get_runtime_storage_parameter(module_name, function_name, key) {
 function get_runtime_storage_parameter_with_key(module_name, function_name, key) {
   // Special syntax to concatenate Uint8Array
   let a = new Uint8Array([
-    ...stringToBytes(module_name + " " + function_name),
+    ...utils.stringToU8a(module_name + " " + function_name),
     // Key may have many forms
     ...keyToBytes(key)
   ]);
-  // Remember to use 32 bytes, not the full 64
-  return "0x" + bytesToHex(blake2b(a, null, 32));
+  return util_crypto.blake2AsHex(a);
 }
 
 function get_runtime_storage_parameter_without_key(module_name, function_name) {
   // Special syntax to concatenate Uint8Array
-  let a = stringToBytes(module_name + " " + function_name);
-  // Remember to use 32 bytes, not the full 64
-  return "0x" + bytesToHex(blake2b(a, null, 32));
+  let a = utils.stringToU8a(module_name + " " + function_name);
+  return util_crypto.blake2AsHex(a);
 }
 
 function keyToBytes(key) {
-  let key_bytes = ss58Decode(runtime_storage.key.value)
-    ? ss58Decode(runtime_storage.key.value)
-    : stringToBytes(runtime_storage.key.value);
+  let key_bytes = keyring.decodeAddress(runtime_storage.key.value)
+    ? keyring.decodeAddress(runtime_storage.key.value)
+    : utils.stringToU8a(runtime_storage.key.value);
   return key_bytes;
 }
 

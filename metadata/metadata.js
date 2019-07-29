@@ -35,7 +35,7 @@ function make_request() {
 
 function decode_metadata(metadata) {
   output_raw.innerText += JSON.stringify(metadata);
-  let decoded = new TextDecoder().decode(hexToBytes(metadata)); 
+  let decoded = new TextDecoder().decode(utils.hexToU8a(metadata)); 
   output_decoded.innerText += JSON.stringify(decoded);
 }
 
