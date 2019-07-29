@@ -119,6 +119,7 @@ function make_request(parameter, endpoint = "http://localhost:9933") {
     })
     .catch(error => {
       if (endpoint == "http://localhost:9933") {
+        // Fallback to public endpoint
         make_request(
           parameter,
           "https://substrate-rpc.parity.io/state_getStorage"

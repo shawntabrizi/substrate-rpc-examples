@@ -25,11 +25,12 @@ function make_request(endpoint = "http://localhost:9933/") {
       }
     })
     .then(response => {
-      decode_metadata(response.result);
+      print_metadata(response.result);
       console.debug(response);
     })
     .catch(error => {
       if (endpoint == "http://localhost:9933/") {
+        // Fallback to public endpoint
         make_request("https://substrate-rpc.parity.io/state_getMetadata");
       } else {
         console.error(error);
@@ -38,8 +39,12 @@ function make_request(endpoint = "http://localhost:9933/") {
 }
 
 function decode_metadata(metadata) {
+  return new TextDecoder().decode(utils.hexToU8a(metadata));
+}
+
+function print_metadata(metadata) {
   output_raw.innerText += metadata;
-  let decoded = new TextDecoder().decode(utils.hexToU8a(metadata));
+  let decoded = decode_metadata(metadata);
   output_decoded.innerText += decoded;
 }
 
@@ -48,3 +53,7 @@ make_request();
 document.getElementById(
   "metadata-request"
 ).innerText = get_metadata_request.toString();
+
+document.getElementById(
+  "metadata-decoder"
+).innerText = decode_metadata.toString();
