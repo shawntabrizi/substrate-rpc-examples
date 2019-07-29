@@ -16,7 +16,8 @@ print_runtime_storage();
 async function print_runtime_storage() {
   // Clear output field
   runtime_storage.output.innerText = "";
-  runtime_storage.output.innerText += "// First we need to generate the storage key (`parameter`)" + "\n";
+  runtime_storage.output.innerText +=
+    "// First we need to generate the storage key (`parameter`)" + "\n";
   let parameter = get_runtime_storage_parameter(
     runtime_storage.module_name.value,
     runtime_storage.function_name.value,
@@ -24,25 +25,45 @@ async function print_runtime_storage() {
   );
 
   runtime_storage.output.innerText += "Parameter: " + parameter + "\n";
-  let new_request = get_storage_request(parameter);
-  runtime_storage.output.innerText += "Request:   " + await new_request.clone().text() + "\n";
-  make_request(new_request);
+  let new_request = get_storage_request(0, parameter);
+  runtime_storage.output.innerText +=
+    "Request:   " + (await new_request.text()) + "\n";
+  make_request(parameter);
 }
 
 function get_runtime_storage_parameter(module_name, function_name, key) {
-  runtime_storage.output.innerText += "// We do this using the `module_name`, `function_name`, and `key` (optional)" + "\n";
+  runtime_storage.output.innerText +=
+    "// We do this using the `module_name`, `function_name`, and `key` (optional)" +
+    "\n";
   if (key) {
-    runtime_storage.output.innerText += "// A `key` is provided in this example, so this is how we generate the storage parameter:" + "\n";
-    runtime_storage.output.innerText += "\n" + get_runtime_storage_parameter_with_key.toString() + "\n\n";
-    return get_runtime_storage_parameter_with_key(module_name, function_name, key);
+    runtime_storage.output.innerText +=
+      "// A `key` is provided in this example, so this is how we generate the storage parameter:" +
+      "\n";
+    runtime_storage.output.innerText +=
+      "\n" + get_runtime_storage_parameter_with_key.toString() + "\n\n";
+    return get_runtime_storage_parameter_with_key(
+      module_name,
+      function_name,
+      key
+    );
   } else {
-    runtime_storage.output.innerText += "// No `key` is provided in this example." + "\n";
-    runtime_storage.output.innerText += "\n" + get_runtime_storage_parameter_without_key.toString() + "\n\n";
-    return get_runtime_storage_parameter_without_key(module_name, function_name, key);
+    runtime_storage.output.innerText +=
+      "// No `key` is provided in this example." + "\n";
+    runtime_storage.output.innerText +=
+      "\n" + get_runtime_storage_parameter_without_key.toString() + "\n\n";
+    return get_runtime_storage_parameter_without_key(
+      module_name,
+      function_name,
+      key
+    );
   }
 }
 
-function get_runtime_storage_parameter_with_key(module_name, function_name, key) {
+function get_runtime_storage_parameter_with_key(
+  module_name,
+  function_name,
+  key
+) {
   // Special syntax to concatenate Uint8Array
   let a = new Uint8Array([
     ...utils.stringToU8a(module_name + " " + function_name),
@@ -67,8 +88,8 @@ function keyToBytes(key) {
   return key_bytes;
 }
 
-function get_storage_request(parameter) {
-  let request = new Request("http://localhost:9933", {
+function get_storage_request(endpoint, parameter) {
+  let request = new Request(endpoint, {
     method: "POST",
     body: JSON.stringify({
       id: 1,
@@ -81,7 +102,8 @@ function get_storage_request(parameter) {
   return request;
 }
 
-function make_request(request) {
+function make_request(parameter, endpoint = "http://localhost:9933") {
+  let request = get_storage_request(endpoint, parameter);
   fetch(request)
     .then(response => {
       if (response.status === 200) {
@@ -96,6 +118,13 @@ function make_request(request) {
       console.debug(response);
     })
     .catch(error => {
-      console.error(error);
+      if (endpoint == "http://localhost:9933") {
+        make_request(
+          parameter,
+          "https://substrate-rpc.parity.io/state_getStorage"
+        );
+      } else {
+        console.error(error);
+      }
     });
 }
