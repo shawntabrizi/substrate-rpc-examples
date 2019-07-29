@@ -33,10 +33,11 @@ function get_runtime_storage_parameter(module_name, function_name, key) {
   runtime_storage.output.innerText += "// We do this using the `module_name`, `function_name`, and `key` (optional)" + "\n";
   if (key) {
     runtime_storage.output.innerText += "// A `key` is provided in this example, so this is how we generate the storage parameter:" + "\n";
-    runtime_storage.output.innerText += "\n" + get_runtime_storage_parameter_with_key.toSource() + "\n\n";
+    runtime_storage.output.innerText += "\n" + get_runtime_storage_parameter_with_key.toString() + "\n\n";
     return get_runtime_storage_parameter_with_key(module_name, function_name, key);
   } else {
     runtime_storage.output.innerText += "// No `key` is provided in this example." + "\n";
+    runtime_storage.output.innerText += "\n" + get_runtime_storage_parameter_without_key.toString() + "\n\n";
     return get_runtime_storage_parameter_without_key(module_name, function_name, key);
   }
 }
@@ -55,7 +56,6 @@ function get_runtime_storage_parameter_with_key(module_name, function_name, key)
 function get_runtime_storage_parameter_without_key(module_name, function_name) {
   // Special syntax to concatenate Uint8Array
   let a = stringToBytes(module_name + " " + function_name);
-
   // Remember to use 32 bytes, not the full 64
   return "0x" + bytesToHex(blake2b(a, null, 32));
 }
