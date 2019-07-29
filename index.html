@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en" class="h-100">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="A Simple Page to Query the Substrate RPC">
+	<meta name="author" content="Shawn Tabrizi">
+	<title>Substrate RPC Tools</title>
+	
+	<!-- Bootstrap core CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<!-- Custom styles for this template -->
+	<link href="custom.css" rel="stylesheet">
+</head>
+
+<body class="d-flex flex-column h-100">
+	<div class="container">
+		<div class="row">
+			<h2>Runtime Storage</h2>
+			<div class="input-group mb-3">
+				<div class="input-group-prepend">
+					<span class="input-group-text">Parameters</span>
+				</div>
+				<input type="text" class="form-control col-2" id="runtime-storage-module-name" placeholder="Module Name" value="Balances">
+				<input type="text" class="form-control col-2" id="runtime-storage-function-name" placeholder="Function Name" value="FreeBalance">
+				<input type="text" class="form-control col-6" id="runtime-storage-key" placeholder="Key" value="5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY">
+			</div>
+			<div id="runtime-storage-output"></div>
+		</div>
+	</div>
+
+	<footer class="footer mt-auto py-3">
+		<div class="container">
+			<span class="text-muted">Created by Shawn Tabrizi</span>
+		</div>
+	</footer>
+	<script src="bundle.js"></script>
+	<script src="substrate-rpc-tools.js"></script>
+</body>
+
+</html>
