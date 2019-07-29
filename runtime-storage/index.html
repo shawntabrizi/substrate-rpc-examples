@@ -12,19 +12,26 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	<!-- Custom styles for this template -->
-	<link href="custom.css" rel="stylesheet">
+	<link href="../custom.css" rel="stylesheet">
 </head>
 
 <body class="d-flex flex-column h-100">
 	<main role="main" class="flex-shrink-0">
 		<div class="container">
-			<h1 class="mt-5">Substrate RPC Examples</h1>
-			<p class="lead">Click any of the links below to see an example of calling the Substrate RPC endpoint.</p>
-			<ul>
-				<li>
-					<a href="runtime-storage/">Runtime Storage</a>
-				</li>
-			</ul>
+			<h1 class="mt-5">Runtime Storage</h1>
+			<p class="lead">This is an example of calling the <code>state_getStorage</code> rpc endpoint.</p>
+			<div class="input-group mb-3">
+				<div class="input-group-prepend">
+					<span class="input-group-text">Parameters</span>
+				</div>
+				<input type="text" class="form-control col-2" id="runtime-storage-module-name" placeholder="Module Name"
+					value="Balances">
+				<input type="text" class="form-control col-2" id="runtime-storage-function-name"
+					placeholder="Function Name" value="FreeBalance">
+				<input type="text" class="form-control col-6" id="runtime-storage-key" placeholder="Key"
+					value="5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY">
+			</div>
+			<code id="runtime-storage-output"></code>
 		</div>
 	</main>
 
