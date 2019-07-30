@@ -101,7 +101,7 @@ function get_storage_request(endpoint, parameter) {
   return request;
 }
 
-function make_request(parameter, endpoint = "http://localhost:9933") {
+function make_request(parameter, endpoint = "http://localhost:9933/") {
   let request = get_storage_request(endpoint, parameter);
   fetch(request)
     .then(response => {
@@ -117,11 +117,11 @@ function make_request(parameter, endpoint = "http://localhost:9933") {
       console.debug(response);
     })
     .catch(error => {
-      if (endpoint == "http://localhost:9933") {
+      if (endpoint == "http://localhost:9933/") {
         // Fallback to public endpoint
         make_request(
           parameter,
-          "https://substrate-rpc.parity.io/state_getStorage"
+          "https://dev-node.substrate.dev:9933/"
         );
       } else {
         console.error(error);
