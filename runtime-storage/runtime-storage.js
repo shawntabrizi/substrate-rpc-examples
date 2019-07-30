@@ -66,7 +66,7 @@ function get_runtime_storage_parameter_with_key(
 ) {
   // Special syntax to concatenate Uint8Array
   let a = new Uint8Array([
-    ...utils.stringToU8a(module_name + " " + function_name),
+    ...util.stringToU8a(module_name + " " + function_name),
     // Key may have many forms
     ...keyToBytes(key)
   ]);
@@ -75,7 +75,7 @@ function get_runtime_storage_parameter_with_key(
 }
 
 function get_runtime_storage_parameter_without_key(module_name, function_name) {
-  let a = utils.stringToU8a(module_name + " " + function_name);
+  let a = util.stringToU8a(module_name + " " + function_name);
   // We use xxhash for Storage Values, with bit-length 128
   return util_crypto.xxhashAsHex(a, 128);
 }
@@ -83,7 +83,7 @@ function get_runtime_storage_parameter_without_key(module_name, function_name) {
 function keyToBytes(key) {
   let key_bytes = keyring.decodeAddress(runtime_storage.key.value)
     ? keyring.decodeAddress(runtime_storage.key.value)
-    : utils.stringToU8a(runtime_storage.key.value);
+    : util.stringToU8a(runtime_storage.key.value);
   return key_bytes;
 }
 

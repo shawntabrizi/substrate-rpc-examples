@@ -18,20 +18,20 @@
 <body class="d-flex flex-column h-100">
 	<main role="main" class="flex-shrink-0">
 		<div class="container">
-			<h1 class="mt-5">Metadata</h1>
-			<p class="lead">This is an example of calling the <code>state_getMetadata</code> rpc endpoint.</p>
+			<h1 class="mt-5">Utilities</h1>
+			<p class="lead">Hopefully this page helps you do something.</p>
 			<div class="row">
-				<div class="col-6">
-					<h3>RPC Request</h3>
-					<pre id="metadata-request"></pre>
-					<h3>Raw Metadata</h3>
-					<pre id="metadata-output-raw"></pre>
-				</div>
-				<div class="col-6">
-					<h3>Naive Text Decoding</h3>
-					<pre id="metadata-decoder"></pre>
-					<h3>Decoded Metadata</h3>
-					<pre id="metadata-output-decoded"></pre>
+				<div class="col">
+					<div class="mb-3">
+						<h4>Balance to Hex (Little Endian)</h4>
+						<div class="input-group">
+							<input type="text" class="form-control" id="balance-b2h" placeholder="Balance">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="addon-wrapping">&#8644;</span>
+							</div>
+							<input type="text" class="form-control" id="hex-b2h" placeholder="Hex">
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -48,7 +48,7 @@
 		</div>
 	</footer>
 	<script src="../bundle.js"></script>
-	<script src="metadata.js"></script>
+	<script src="utils.js"></script>
 </body>
 
 </html>

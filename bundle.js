@@ -23102,11 +23102,11 @@ exports.createContext = Script.createContext = function (context) {
 },{}],160:[function(require,module,exports){
 // browserify dependencies.js > bundle.js
 
-let utils = require('@polkadot/util');
+let util = require('@polkadot/util');
 let util_crypto = require('@polkadot/util-crypto');
 let keyring = require('@polkadot/keyring');
 
-window.utils = utils;
+window.util = util;
 window.util_crypto = util_crypto;
 window.keyring = keyring;
 

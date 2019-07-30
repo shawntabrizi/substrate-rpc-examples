@@ -39,7 +39,7 @@ function make_request(endpoint = "http://localhost:9933/") {
 }
 
 function decode_metadata(metadata) {
-  return new TextDecoder().decode(utils.hexToU8a(metadata));
+  return new TextDecoder().decode(util.hexToU8a(metadata));
 }
 
 function print_metadata(metadata) {
