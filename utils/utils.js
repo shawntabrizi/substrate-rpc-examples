@@ -36,7 +36,7 @@ a2h.hex.addEventListener("input", hex2account);
 
 function account2hex() {
 	try {
-		a2h.hex.value = keyring.decodeAddress(a2h.account.value);
+		a2h.hex.value = util.u8aToHex(keyring.decodeAddress(a2h.account.value));
 	} catch(e) {
 		a2h.hex.value = "Error";
 		console.error(e);
