@@ -69,7 +69,7 @@ function blake2string() {
 	}
 }
 
-/* Blake-256 a String */
+/* XXHash a String */
 let xx128 = {
 	"input": document.getElementById("input-xx128"),
 	"hash": document.getElementById("hash-xx128")
