@@ -85,3 +85,23 @@ function xxhash2string() {
 		console.error(e);
 	}
 }
+
+/* Seed to Address */
+let s2a = {
+	"address": document.getElementById("address-s2a"),
+	"seed": document.getElementById("seed-s2a")
+};
+
+s2a.seed.addEventListener("input", seed2address);
+
+function seed2address() {
+	try {
+		let k = new keyring.Keyring({ type: "sr25519" });
+		let user = k.addFromUri(s2a.seed.value);
+		s2a.address.innerText = user.address;
+	} catch(e) {
+		s2a.address.innerText = "Error";
+		console.error(e);
+	}
+}
+
