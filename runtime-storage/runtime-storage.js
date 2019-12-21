@@ -2,13 +2,13 @@
 let runtime_storage = {
   module_name: document.getElementById("runtime-storage-module-name"),
   function_name: document.getElementById("runtime-storage-function-name"),
-  key: document.getElementById("runtime-storage-key"),
+  key_1: document.getElementById("runtime-storage-key-1"),
   output: document.getElementById("runtime-storage-output")
 };
 
 runtime_storage.module_name.addEventListener("input", print_runtime_storage);
 runtime_storage.function_name.addEventListener("input", print_runtime_storage);
-runtime_storage.key.addEventListener("input", print_runtime_storage);
+runtime_storage.key_1.addEventListener("input", print_runtime_storage);
 
 print_runtime_storage();
 /* End Setup Stuff */
@@ -21,21 +21,21 @@ async function print_runtime_storage() {
   let parameter = get_runtime_storage_parameter(
     runtime_storage.module_name.value,
     runtime_storage.function_name.value,
-    runtime_storage.key.value
+    runtime_storage.key_1.value,
   );
 
-  runtime_storage.output.innerText += "Parameter: " + parameter + "\n";
+  runtime_storage.output.innerText += "Storage Key Parameter: " + parameter + "\n";
   let new_request = get_storage_request(0, parameter);
   runtime_storage.output.innerText +=
     "Request:   " + (await new_request.text()) + "\n";
   make_request(parameter);
 }
 
-function get_runtime_storage_parameter(module_name, function_name, key) {
+function get_runtime_storage_parameter(module_name, function_name, key_1) {
   runtime_storage.output.innerText +=
     "// We do this using the `module_name`, `function_name`, and `key` (optional)" +
     "\n";
-  if (key) {
+  if (key_1) {
     runtime_storage.output.innerText +=
       "// A `key` is provided in this example, so this is how we generate the storage parameter:" +
       "\n";
@@ -44,7 +44,7 @@ function get_runtime_storage_parameter(module_name, function_name, key) {
     return get_runtime_storage_parameter_with_key(
       module_name,
       function_name,
-      key
+      key_1
     );
   } else {
     runtime_storage.output.innerText +=
@@ -53,8 +53,7 @@ function get_runtime_storage_parameter(module_name, function_name, key) {
       "\n" + get_runtime_storage_parameter_without_key.toString() + "\n\n";
     return get_runtime_storage_parameter_without_key(
       module_name,
-      function_name,
-      key
+      function_name
     );
   }
 }
@@ -64,26 +63,43 @@ function get_runtime_storage_parameter_with_key(
   function_name,
   key
 ) {
+  // We use xxhash 128 for strings the runtime developer can control
+  let module_hash = util_crypto.xxhashAsU8a(module_name, 128);
+  let function_hash = util_crypto.xxhashAsU8a(function_name, 128);
+
+  // We use blake2 256 for strings the end user can control
+  let key_hash = util_crypto.blake2AsU8a(keyToBytes(key));
+
   // Special syntax to concatenate Uint8Array
-  let a = new Uint8Array([
-    ...util.stringToU8a(module_name + " " + function_name),
-    // Key may have many forms
-    ...keyToBytes(key)
+  let final_key = new Uint8Array([
+    ...module_hash,
+    ...function_hash,
+    ...key_hash,
   ]);
-  // We use blake2 for maps (for security), with bit-length 256
-  return util_crypto.blake2AsHex(a, 256);
+
+  // Return a hex string
+  return util.u8aToHex(final_key);
 }
 
 function get_runtime_storage_parameter_without_key(module_name, function_name) {
-  let a = util.stringToU8a(module_name + " " + function_name);
-  // We use xxhash for Storage Values, with bit-length 128
-  return util_crypto.xxhashAsHex(a, 128);
+  // We use xxhash 128 for strings the runtime developer can control
+  let module_hash = util_crypto.xxhashAsU8a(module_name, 128);
+  let function_hash = util_crypto.xxhashAsU8a(function_name, 128); 
+
+  // Special syntax to concatenate Uint8Array
+  let final_key = new Uint8Array([
+    ...module_hash,
+    ...function_hash
+  ])
+
+  // Return a hex string
+  return util.u8aToHex(final_key);
 }
 
 function keyToBytes(key) {
-  let key_bytes = keyring.decodeAddress(runtime_storage.key.value)
-    ? keyring.decodeAddress(runtime_storage.key.value)
-    : util.stringToU8a(runtime_storage.key.value);
+  let key_bytes = keyring.decodeAddress(key)
+    ? keyring.decodeAddress(key)
+    : util.stringToU8a(key);
   return key_bytes;
 }
 
