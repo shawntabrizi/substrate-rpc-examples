@@ -31,7 +31,7 @@ function make_request(endpoint = "http://localhost:9933/") {
     .catch(error => {
       if (endpoint == "http://localhost:9933/") {
         // Fallback to public endpoint
-        make_request("https://dev-node.substrate.dev:9933/");
+        make_request("https://rpc.polkadot.io/");
       } else {
         console.error(error);
       }
